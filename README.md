@@ -19,7 +19,7 @@ paren and uses that as the character position for aligning all arguments.
 
 Examples of method calls:
 
-...scala
+...
 m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
   ....
 }
@@ -27,7 +27,7 @@ m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
 
 becomes
 
-...scala
+...
 m1(thisIsArgOne, 
    thisIsArgTwo, 
    thisIsArgThree(), 
@@ -38,7 +38,7 @@ m1(thisIsArgOne,
 
 and the following (note first argument position):
 
-...scala
+...
 aVeryLongMethodNameAsAnExampleUsage(
                         thisIsArgOne, thisIsArgTwo, thisIsArgThree, thisIsArgFour): Sometype = {
   ....
@@ -47,7 +47,7 @@ aVeryLongMethodNameAsAnExampleUsage(
 
 becomes
 
-...scala
+...
 aVeryLongMethodNameAsAnExampleUsage(
                         thisIsArgOne, 
                         thisIsArgTwo, 
@@ -59,7 +59,7 @@ aVeryLongMethodNameAsAnExampleUsage(
 
 becomes (with g:scala_format_extra_arg_offset = 2)
 
-...scala
+...
 aVeryLongMethodNameAsAnExampleUsage(
                         thisIsArgOne, 
                           thisIsArgTwo, 
@@ -75,7 +75,7 @@ under the first argument).
 
 Examples of method calls with string arguments:
 
-...scala
+...
 m1(thisIsArgOne, "this is" + somestring + "a \"foo()\" test", thisIsArgThree): Sometype = {
   ....
 }
@@ -83,7 +83,7 @@ m1(thisIsArgOne, "this is" + somestring + "a \"foo()\" test", thisIsArgThree): S
 
 becomes (with let g:scala_format_extra_string_arg_offset = 0) 
 
-...scala
+...
 m1(thisIsArgOne, 
    "this is" + 
    somestring + 
@@ -95,7 +95,7 @@ m1(thisIsArgOne,
 
 or becomes (with let g:scala_format_extra_string_arg_offset = 2)
 
-...scala
+...
 m1(thisIsArgOne, 
    "this is" + 
      somestring + 
@@ -109,7 +109,7 @@ Yea, it can actually do this.
 
 One more example of a method where an argument is itself a method call:
 
-...scala
+...
 m1(thisIsArgOne, thisIsArgTwo(innerOne, innerTwo), thisIsArgThree()): Sometype = {
   ....
 }
@@ -117,7 +117,7 @@ m1(thisIsArgOne, thisIsArgTwo(innerOne, innerTwo), thisIsArgThree()): Sometype =
 
 placing cursor on "m1(" and invoking this script becomes
 
-...scala
+...
 m1(thisIsArgOne, 
    thisIsArgTwo(innerOne, innerTwo), 
    thisIsArgThree()): Sometype = {
@@ -127,7 +127,7 @@ m1(thisIsArgOne,
 
 then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
 
-...scala
+...
 m1(thisIsArgOne, 
    thisIsArgTwo(innerOne, 
                 innerTwo), 
@@ -138,7 +138,7 @@ m1(thisIsArgOne,
 
 Examples of method definitions:
 
-...scala
+...
 def m1(thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
   ....
 }
@@ -146,7 +146,7 @@ def m1(thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype
 
 becomes
 
-...scala
+...
 def m1(thisIsArgOne: String, 
        thisIsArgTwo: Int, 
        thisIsArgThree: Float): Sometype = {
@@ -156,7 +156,7 @@ def m1(thisIsArgOne: String,
 
 and the following (note first argument position):
 
-...scala
+...
 def aVeryLongMethodNameAsAnExampleUsage(
                         thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
   ....
@@ -165,7 +165,7 @@ def aVeryLongMethodNameAsAnExampleUsage(
 
 becomes
 
-...scala
+...
 def aVeryLongMethodNameAsAnExampleUsage(
                         thisIsArgOne: String, 
                         thisIsArgTwo: Int, 
@@ -179,13 +179,13 @@ Array definition:
 As an unplanned extra, this can be used to format the arguments to an
 array:
 
-...scala
+...
 val a = Array[Int] ( 1, 3, 4, 5, 4)
 ...
 
 becomes
 
-...scala
+...
 val a = Array[Int] ( 1, 
                      3, 
                      4, 
@@ -195,14 +195,14 @@ val a = Array[Int] ( 1,
 
 and
 
-...scala
+...
 val a = Array[Int] ( 
           1, 3, 4, 5, 4)
 ...
 
 becomes
 
-...scala
+...
 val a = Array[Int] ( 
           1, 
           3, 
