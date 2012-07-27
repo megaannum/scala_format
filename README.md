@@ -18,11 +18,13 @@ The script finds the first non-white-space character after the method's left
 paren and uses that as the character position for aligning all arguments. 
 
 Examples of method calls:
+
   m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
     ....
   }
 
 becomes
+
   m1(thisIsArgOne, 
      thisIsArgTwo, 
      thisIsArgThree(), 
@@ -31,12 +33,14 @@ becomes
   }
 
 and the following (note first argument position):
+
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, thisIsArgTwo, thisIsArgThree, thisIsArgFour): Sometype = {
     ....
   }
 
 becomes
+
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, 
                           thisIsArgTwo, 
@@ -46,6 +50,7 @@ becomes
   }
 
 becomes (with g:scala_format_extra_arg_offset = 2)
+
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, 
                             thisIsArgTwo, 
@@ -59,9 +64,11 @@ argument and reformat and it works (the rest of the arguments are aligned
 under the first argument).
 
 Examples of method calls with string arguments:
+
   m1(thisIsArgOne, "this is" + somestring + "a \"foo()\" test", thisIsArgThree): Sometype = {
     ....
   }
+
 becomes (with let g:scala_format_extra_string_arg_offset = 0) 
 
   m1(thisIsArgOne, 
@@ -73,6 +80,7 @@ becomes (with let g:scala_format_extra_string_arg_offset = 0)
   }
 
 or becomes (with let g:scala_format_extra_string_arg_offset = 2)
+
   m1(thisIsArgOne, 
      "this is" + 
        somestring + 
@@ -84,11 +92,13 @@ or becomes (with let g:scala_format_extra_string_arg_offset = 2)
 Yea, it can actually do this. 
 
 One more example of a method where an argument is itself a method call:
+
   m1(thisIsArgOne, thisIsArgTwo(innerOne, innerTwo), thisIsArgThree()): Sometype = {
     ....
   }
 
 placing cursor on "m1(" and invoking this script becomes
+
   m1(thisIsArgOne, 
      thisIsArgTwo(innerOne, innerTwo), 
      thisIsArgThree()): Sometype = {
@@ -96,6 +106,7 @@ placing cursor on "m1(" and invoking this script becomes
   }
 
 then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
+
   m1(thisIsArgOne, 
      thisIsArgTwo(innerOne, 
                   innerTwo), 
@@ -104,11 +115,13 @@ then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
   }
 
 Examples of method definitions:
+
   def m1(thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
     ....
   }
 
 becomes
+
   def m1(thisIsArgOne: String, 
          thisIsArgTwo: Int, 
          thisIsArgThree: Float): Sometype = {
@@ -116,12 +129,14 @@ becomes
   }
 
 and the following (note first argument position):
+
   def aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
     ....
   }
 
 becomes
+
   def aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne: String, 
                           thisIsArgTwo: Int, 
@@ -133,23 +148,28 @@ becomes
 Array definition:
 As an unplanned extra, this can be used to format the arguments to an
 array:
+
   val a = Array[Int] ( 1, 3, 4, 5, 4)
 
 becomes
+
   val a = Array[Int] ( 1, 
                        3, 
                        4, 
                        5, 
                        4)
 and
+
   val a = Array[Int] ( 
             1, 3, 4, 5, 4)
 
 becomes
+
   val a = Array[Int] ( 
             1, 
             3, 
             4, 
             5, 
             4)
+
 Ok, so formating an array does not do too much.
