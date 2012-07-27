@@ -17,27 +17,26 @@ would enter <Leader>f.
 The script finds the first non-white-space character after the method's left
 paren and uses that as the character position for aligning all arguments. 
 
-Examples of method calls: >
+Examples of method calls:
   m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
     ....
   }
-<
-becomes >
+
+becomes
   m1(thisIsArgOne, 
      thisIsArgTwo, 
      thisIsArgThree(), 
      thisIsArgFour): Sometype = {
     ....
   }
-<
 
-and the following (note first argument position): >
+and the following (note first argument position):
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, thisIsArgTwo, thisIsArgThree, thisIsArgFour): Sometype = {
     ....
   }
-<
-becomes >
+
+becomes
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, 
                           thisIsArgTwo, 
@@ -45,9 +44,8 @@ becomes >
                           thisIsArgFour): Sometype = {
     ....
   }
-<
 
-becomes (with g:scala_format_extra_arg_offset = 2) >
+becomes (with g:scala_format_extra_arg_offset = 2)
   aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne, 
                             thisIsArgTwo, 
@@ -55,18 +53,17 @@ becomes (with g:scala_format_extra_arg_offset = 2) >
                             thisIsArgFour): Sometype = {
     ....
   }
-<
 
 Generally, in this case you can change the location of the first method
 argument and reformat and it works (the rest of the arguments are aligned
 under the first argument).
 
-Examples of method calls with string arguments: >
+Examples of method calls with string arguments:
   m1(thisIsArgOne, "this is" + somestring + "a \"foo()\" test", thisIsArgThree): Sometype = {
     ....
   }
-<
-becomes (with let g:scala_format_extra_string_arg_offset = 0) >
+becomes (with let g:scala_format_extra_string_arg_offset = 0) 
+
   m1(thisIsArgOne, 
      "this is" + 
      somestring + 
@@ -74,8 +71,8 @@ becomes (with let g:scala_format_extra_string_arg_offset = 0) >
      thisIsArgThree): Sometype = {
     ....
   }
-<
-or becomes (with let g:scala_format_extra_string_arg_offset = 2) >
+
+or becomes (with let g:scala_format_extra_string_arg_offset = 2)
   m1(thisIsArgOne, 
      "this is" + 
        somestring + 
@@ -83,22 +80,21 @@ or becomes (with let g:scala_format_extra_string_arg_offset = 2) >
      thisIsArgThree): Sometype = {
     ....
   }
-<
 
 Yea, it can actually do this. 
 
-One more example of a method where an argument is itself a method call: >
+One more example of a method where an argument is itself a method call:
   m1(thisIsArgOne, thisIsArgTwo(innerOne, innerTwo), thisIsArgThree()): Sometype = {
     ....
   }
-<
-placing cursor on "m1(" and invoking this script becomes >
+
+placing cursor on "m1(" and invoking this script becomes
   m1(thisIsArgOne, 
      thisIsArgTwo(innerOne, innerTwo), 
      thisIsArgThree()): Sometype = {
     ....
   }
-<
+
 then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
   m1(thisIsArgOne, 
      thisIsArgTwo(innerOne, 
@@ -106,58 +102,54 @@ then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
      thisIsArgThree()): Sometype = {
     ....
   }
-<
 
-Examples of method definitions: >
+Examples of method definitions:
   def m1(thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
     ....
   }
-<
-becomes >
+
+becomes
   def m1(thisIsArgOne: String, 
          thisIsArgTwo: Int, 
          thisIsArgThree: Float): Sometype = {
     ....
   }
-<
 
-and the following (note first argument position): >
+and the following (note first argument position):
   def aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
     ....
   }
-<
-becomes >
+
+becomes
   def aVeryLongMethodNameAsAnExampleUsage(
                           thisIsArgOne: String, 
                           thisIsArgTwo: Int, 
                           thisIsArgThree: Float): Sometype = {
     ....
   }
-<
+
 
 Array definition:
 As an unplanned extra, this can be used to format the arguments to an
-array: >
+array:
   val a = Array[Int] ( 1, 3, 4, 5, 4)
-<
-becomes >
+
+becomes
   val a = Array[Int] ( 1, 
                        3, 
                        4, 
                        5, 
                        4)
-<
-and >
+and
   val a = Array[Int] ( 
             1, 3, 4, 5, 4)
-<
-becomes >
+
+becomes
   val a = Array[Int] ( 
             1, 
             3, 
             4, 
             5, 
             4)
-<
 Ok, so formating an array does not do too much.
