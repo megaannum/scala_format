@@ -1,0 +1,276 @@
+format.txt           For Vim version 7.3           Last change: 2012 July 19
+
+Author:      Richard Emberson 
+Version:     2.0
+Title:       Format Arguments Scala 
+Homepage:    http://www.vim.org/scripts/script.php?script_id=3498
+
+For Vim instructions on installing this 'txt' file, enter:
+    :help add-local-help
+
+==============================================================================
+0. Contents                                       *format* *format-contents*
+
+  0. Content                                 |format-contents|
+  1. Introduction                            |format-intro|
+  2. Installation                            |format-install|
+  3. Options                                 |format-options|
+  4. Supported Platforms                     |format-platforms|
+  5. Usage                                   |format-usage|
+  6. FAQ                                     |format-faq|
+  7. Release notes                           |format-release-notes|
+  8. Caveats                                 |format-caveats|
+  9. Todo List                               |format-todo|
+
+==============================================================================
+1. Introduction                                                *format-intro*
+
+Format arguments for both function definitions and function calls.
+
+Basically, I got tired to formating arguments (so to speak) by hand, so I
+wrote this.  When you have method definitions or calls where the argument list
+is longer than you want (longer than your page width), then this script can
+reformat the arguments so that the are all aligned with the first argument
+each on its own line.  Also, when an argument is a bunch of strings
+concatenated with plus operator, '+', this script will also place each piece
+of a string on its own line.
+
+==============================================================================
+2. Instalation                                                 *format-install*
+
+The {Format} autoload 'format.vim' code file should be in the 'autoload/scala'
+directory, the 'format.txt' in the 'doc/scala' directory and the plugin
+'format.vim' code in the 'plugin/scala' directory.
+
+==============================================================================
+3. Options                                                     *format-options*
+
+These help control the behavior of format.vim.
+Remember, if you change these in the code itself and then upgrade to a later
+version, your changes will be lost.
+
+Value of the additional indent given to the additional members of a 
+string argument.
+If an argument is a string concatenated from multiple parts, this
+option defined the additional indend for the later parts of the string.
+Recommend setting to 0 or 2. >
+  let g:scala_format_extra_string_arg_offset = 2
+<
+Value of the additional indent given to the additional arguments
+after the first argument.
+All arguments after the first are indented an additional number
+of spaces.
+Recommend setting to 0 
+(It was easy to add this feature but I would not use it.) >
+  let g:scala_format_extra_arg_offset = 0
+<
+Value of the maximum number of args that can be formatted. 
+This also limits how many lines are search for the terminating ')'. >
+  let s:scala_format_max_number_args = 15
+<
+Value of the maximum number of lines to search after the start of
+the method for a non-white space character. >
+  let g:scala_format_max_line_search_after_method_start = 2
+<
+
+==============================================================================
+4. Supported Platforms                                       *format-platforms*
+
+The {Format} script ought to run all all platforms.
+
+==============================================================================
+5. Usage                                                        *format-usage*
+
+Place the cursor on any character in the method name or on the methods left
+paren, '(', and then invoke this script. If you use the binding above, you
+would enter <Leader>f.
+
+The script finds the first non-white-space character after the method's left
+paren and uses that as the character position for aligning all arguments. 
+
+Examples of method calls: >
+  m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
+    ....
+  }
+<
+becomes >
+  m1(thisIsArgOne, 
+     thisIsArgTwo, 
+     thisIsArgThree(), 
+     thisIsArgFour): Sometype = {
+    ....
+  }
+<
+
+and the following (note first argument position): >
+  aVeryLongMethodNameAsAnExampleUsage(
+                          thisIsArgOne, thisIsArgTwo, thisIsArgThree, thisIsArgFour): Sometype = {
+    ....
+  }
+<
+becomes >
+  aVeryLongMethodNameAsAnExampleUsage(
+                          thisIsArgOne, 
+                          thisIsArgTwo, 
+                          thisIsArgThree, 
+                          thisIsArgFour): Sometype = {
+    ....
+  }
+<
+
+becomes (with g:scala_format_extra_arg_offset = 2) >
+  aVeryLongMethodNameAsAnExampleUsage(
+                          thisIsArgOne, 
+                            thisIsArgTwo, 
+                            thisIsArgThree, 
+                            thisIsArgFour): Sometype = {
+    ....
+  }
+<
+
+Generally, in this case you can change the location of the first method
+argument and reformat and it works (the rest of the arguments are aligned
+under the first argument).
+
+Examples of method calls with string arguments: >
+  m1(thisIsArgOne, "this is" + somestring + "a \"foo()\" test", thisIsArgThree): Sometype = {
+    ....
+  }
+<
+becomes (with let g:scala_format_extra_string_arg_offset = 0) >
+  m1(thisIsArgOne, 
+     "this is" + 
+     somestring + 
+     "a \"foo()\" test", 
+     thisIsArgThree): Sometype = {
+    ....
+  }
+<
+or becomes (with let g:scala_format_extra_string_arg_offset = 2) >
+  m1(thisIsArgOne, 
+     "this is" + 
+       somestring + 
+       "a \"foo()\" test", 
+     thisIsArgThree): Sometype = {
+    ....
+  }
+<
+
+Yea, it can actually do this. 
+
+One more example of a method where an argument is itself a method call: >
+  m1(thisIsArgOne, thisIsArgTwo(innerOne, innerTwo), thisIsArgThree()): Sometype = {
+    ....
+  }
+<
+placing cursor on "m1(" and invoking this script becomes >
+  m1(thisIsArgOne, 
+     thisIsArgTwo(innerOne, innerTwo), 
+     thisIsArgThree()): Sometype = {
+    ....
+  }
+<
+then placing cursor on "thisIsArgTwo(" and invoking this script becomes >
+  m1(thisIsArgOne, 
+     thisIsArgTwo(innerOne, 
+                  innerTwo), 
+     thisIsArgThree()): Sometype = {
+    ....
+  }
+<
+
+Examples of method definitions: >
+  def m1(thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
+    ....
+  }
+<
+becomes >
+  def m1(thisIsArgOne: String, 
+         thisIsArgTwo: Int, 
+         thisIsArgThree: Float): Sometype = {
+    ....
+  }
+<
+
+and the following (note first argument position): >
+  def aVeryLongMethodNameAsAnExampleUsage(
+                          thisIsArgOne: String, thisIsArgTwo: Int, thisIsArgThree: Float): Sometype = {
+    ....
+  }
+<
+becomes >
+  def aVeryLongMethodNameAsAnExampleUsage(
+                          thisIsArgOne: String, 
+                          thisIsArgTwo: Int, 
+                          thisIsArgThree: Float): Sometype = {
+    ....
+  }
+<
+
+Array definition:
+As an unplanned extra, this can be used to format the arguments to an
+array: >
+  val a = Array[Int] ( 1, 3, 4, 5, 4)
+<
+becomes >
+  val a = Array[Int] ( 1, 
+                       3, 
+                       4, 
+                       5, 
+                       4)
+<
+and >
+  val a = Array[Int] ( 
+            1, 3, 4, 5, 4)
+<
+becomes >
+  val a = Array[Int] ( 
+            1, 
+            3, 
+            4, 
+            5, 
+            4)
+<
+Ok, so formating an array does not do too much.
+
+==============================================================================
+6. FAQ                                                             *format-faq*
+>
+    Q: Why don't you support my favorite way of formating method arguments?
+<
+    A: Tell me about it an maybe I will.
+
+==============================================================================
+7. Release notes                                        *format-release-notes*
+
+    2.0 Release Note: ~
+      Support for autoloading.
+
+    1.1 Release Note: ~
+      Maximum number of arguments is now a parameter with default
+      value 10 (the original value). This can now be modified to
+      allow for the formating of more than 10 arguments.
+      Maximum number of lines to search for the first non-white space
+      character is now a parameter with default value 2 (the original
+      value). One is not likely to ever need to increase this value.
+
+    1.0 Release Note: ~
+      Initial public release.
+
+==============================================================================
+8. Caveats                                                     *format-caveats*
+
+Works most of the time, but sometimes when the arguments span multiple lines
+one must first get them all back on the same line again before invoking this
+code .... but not always.
+
+If you have a method call with arguments which are themselves method calls,
+the arguments to the inner-method are not formated within the inner-call.
+
+==============================================================================
+9. Todo List                                                    *format-todo*
+    * Empty for now.
+
+==============================================================================
+
+vim:tw=78:ts=8:noet:ft=help:fo+=t:norl:noet:
