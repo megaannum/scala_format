@@ -19,11 +19,9 @@ paren and uses that as the character position for aligning all arguments.
 
 Examples of method calls:
 
-...
-m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
-  ....
-}
-...
+    m1(thisIsArgOne, thisIsArgTwo, thisIsArgThree(), thisIsArgFour): Sometype = {
+    ....
+    }
 
 becomes
 
@@ -176,3 +174,7 @@ becomes
               4)
 
 Ok, so formating an array does not do too much.
+
+## Vim
+
+[Vim location](http://www.vim.org/scripts/script.php?script_id=3498)
