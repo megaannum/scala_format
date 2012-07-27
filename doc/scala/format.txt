@@ -36,7 +36,7 @@ concatenated with plus operator, '+', this script will also place each piece
 of a string on its own line.
 
 ==============================================================================
-2. Instalation                                                 *format-install*
+2. Installation                                                *format-install*
 
 The {Format} autoload 'format.vim' code file should be in the 'autoload/scala'
 directory, the 'format.txt' in the 'doc/scala' directory and the plugin

@@ -2,7 +2,7 @@
 
 Format Scala method arguments
 
-## Instalation
+## Installation
 
 The Format autoload 'format.vim' code file should be in the 'autoload/scala'
 directory, the 'format.txt' in the 'doc/scala' directory and the plugin
