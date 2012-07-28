@@ -73,13 +73,14 @@ let g:scala_format_max_line_search_after_method_start = 2
 " Summary:       Function for formatting Scala methods arguments 
 " Author:        Richard Emberson <richard.n.embersonATgmailDOTcom>
 " Last Modified: 03/18/2011
-" Version:       2.0
+" Version:       2.0.1
 " Modifications:
-"  2.0 : Support for autoloading.
-"  1.1 : Maximum number of arguments is now a parameter with default
+"  2.0.1 : Changed name of VAM addon-info file.
+"  2.0   : Support for autoloading.
+"  1.1   : Maximum number of arguments is now a parameter with default
 "          value 10 (the original value). This can now be modified to
 "          allow for the formating of more than 10 arguments.
-"        Maximum number of lines to search for the first non-white space
+"          Maximum number of lines to search for the first non-white space
 "          character is now a parameter with default value 2 (the original
 "          value). One is not likely to ever need to increase this value.
 "  1.0 : initial public release.
