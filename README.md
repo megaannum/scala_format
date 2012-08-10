@@ -178,3 +178,7 @@ Ok, so formating an array does not do too much.
 ## Vim
 
 [Vim location](http://www.vim.org/scripts/script.php?script_id=3498)
+
+## Acknowledgements and thanks
+
+- Andy Wokula: provided feedback on help file syntax.
