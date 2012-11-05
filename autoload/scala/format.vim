@@ -33,11 +33,6 @@
 "   Remember, if you change these and then upgrade to a later version, 
 "   your changes will be lost.
 " ============================================================================
-" Define these just to make the code a little more readable
-"   Remember, these are script local and can not be used in your .vimrc
-"   file (but 0 and 1 can be used)
-let s:IS_FALSE = 0
-let s:IS_TRUE = 1
 
 " Value of the additional indent given to the additional members of a 
 " string argument.
@@ -433,13 +428,13 @@ function! s:BuildParenList(initialPos, lineNos)
     let currentPos = a:initialPos
     let currentLine = a:lineNos
     let maxLine = currentLine + g:scala_format_max_number_args
-    let isnewline = s:IS_FALSE
+    let isnewline = 0
 
     let parenDepth = 0
     let type = 'arg'
-    let isSTR = s:IS_FALSE
-    let inSTR = s:IS_FALSE
-    let nonWS = s:IS_FALSE
+    let isSTR = 0
+    let inSTR = 0
+    let nonWS = 0
     let bracketDepth = 0
 
     let emptylist = []
@@ -469,12 +464,12 @@ function! s:BuildParenList(initialPos, lineNos)
           if c == ']' 
             let bracketDepth = bracketDepth - 1
           endif
-        elseif c == '[' && isSTR == s:IS_FALSE
+        elseif c == '[' && isSTR == 0
             let bracketDepth = bracketDepth + 1
 
-        elseif isSTR == s:IS_TRUE
+        elseif isSTR == 1
 " echo 'IS_STR'
-          if inSTR == s:IS_TRUE
+          if inSTR == 1
             if c == '\' 
               let cc = strpart(text, currentPos, 1)
 " echo 'cc: ' . cc
@@ -482,7 +477,7 @@ function! s:BuildParenList(initialPos, lineNos)
                 let currentPos = currentPos + 1
               endif
             elseif c == '"' 
-              let inSTR = s:IS_FALSE
+              let inSTR = 0
             endif
 
           else
@@ -492,10 +487,10 @@ function! s:BuildParenList(initialPos, lineNos)
               call add(entrylist, entry)
 " echo 'add entry 1'
               let start = currentPos + 1
-              let nonWS = s:IS_FALSE
-              let isSTR = s:IS_FALSE
+              let nonWS = 0
+              let isSTR = 0
               let type = 'arg'
-              let isnewline = s:IS_FALSE
+              let isnewline = 0
 
             elseif c == '('
               let parenDepth = parenDepth + 1
@@ -504,7 +499,7 @@ function! s:BuildParenList(initialPos, lineNos)
               let parenDepth = parenDepth - 1
 
             elseif c == '"' 
-              let inSTR = s:IS_TRUE
+              let inSTR = 1
 
             elseif c == '+'
               let entry = {'type': type, 'isnewline': isnewline, 'line': currentLine, 'start': start, 'end': currentPos - 1}
@@ -518,9 +513,9 @@ function! s:BuildParenList(initialPos, lineNos)
               endwhile
 
               let start = currentPos + 1
-              let nonWS = s:IS_FALSE
+              let nonWS = 0
               let type = 'textmiddle'
-              let isnewline = s:IS_FALSE
+              let isnewline = 0
 
             elseif c == ')'
               if type != 'textstart'
@@ -531,11 +526,11 @@ function! s:BuildParenList(initialPos, lineNos)
 " echo 'add entry 3'
               return entrylist
 
-            elseif c == ' ' && nonWS == s:IS_FALSE && isnewline == s:IS_TRUE
+            elseif c == ' ' && nonWS == 0 && isnewline == 1
               " let start = start + 1
 
             else
-              let nonWS = s:IS_TRUE
+              let nonWS = 1
 
             endif
           endif
@@ -549,13 +544,13 @@ function! s:BuildParenList(initialPos, lineNos)
 " echo 'add entry 4'
 
             let start = currentPos + 1
-            let nonWS = s:IS_FALSE
+            let nonWS = 0
             let type = 'arg'
-            let isnewline = s:IS_FALSE
+            let isnewline = 0
 
-          elseif c == '"' && isSTR == s:IS_FALSE && parenDepth == 0
-            let inSTR = s:IS_TRUE
-            let isSTR = s:IS_TRUE
+          elseif c == '"' && isSTR == 0 && parenDepth == 0
+            let inSTR = 1
+            let isSTR = 1
             let type = 'textstart'
 
           elseif c == ':'
@@ -573,11 +568,11 @@ function! s:BuildParenList(initialPos, lineNos)
 " echo 'add entry 5'
             return entrylist
 
-          elseif c == ' ' && nonWS == s:IS_FALSE
+          elseif c == ' ' && nonWS == 0
             let start = start + 1
 
           else
-            let nonWS = s:IS_TRUE
+            let nonWS = 1
 
           endif
         endif
@@ -587,7 +582,7 @@ function! s:BuildParenList(initialPos, lineNos)
 
       let currentLine = currentLine + 1
       let currentPos = 1
-      let isnewline = s:IS_TRUE
+      let isnewline = 1
     endwhile
 
     return emptylist 
@@ -610,12 +605,12 @@ function! s:BuildDotList(initialPos, lineNos)
     let currentPos = a:initialPos
     let currentLine = a:lineNos
     let maxLine = currentLine + g:scala_format_max_number_args
-    let isnewline = s:IS_FALSE
+    let isnewline = 0
 
     let type = 'arg'
-    let isSTR = s:IS_FALSE
-    let inSTR = s:IS_FALSE
-    let nonWS = s:IS_FALSE
+    let isSTR = 0
+    let inSTR = 0
+    let nonWS = 0
     let parenDepth = 0
     let bracketDepth = 0
 
@@ -651,18 +646,18 @@ function! s:BuildDotList(initialPos, lineNos)
         let c = strpart(text, currentPos, 1)
 " echo 'c: ' . c
 
-        if c == ']' && bracketDepth > 0 && isSTR == s:IS_FALSE
+        if c == ']' && bracketDepth > 0 && isSTR == 0
           let bracketDepth = bracketDepth - 1
-        elseif c == '[' && isSTR == s:IS_FALSE
+        elseif c == '[' && isSTR == 0
           let bracketDepth = bracketDepth + 1
-        elseif c == ')' && parenDepth > 0 && isSTR == s:IS_FALSE
+        elseif c == ')' && parenDepth > 0 && isSTR == 0
           let parenDepth = parenDepth - 1
-        elseif c == '(' && isSTR == s:IS_FALSE
+        elseif c == '(' && isSTR == 0
           let parenDepth = parenDepth + 1
 
-        elseif isSTR == s:IS_TRUE
+        elseif isSTR == 1
 " echo 'IS_STR'
-          if inSTR == s:IS_TRUE
+          if inSTR == 1
             if c == '\' 
               let cc = strpart(text, currentPos, 1)
 " echo 'cc: ' . cc
@@ -670,7 +665,7 @@ function! s:BuildDotList(initialPos, lineNos)
                 let currentPos = currentPos + 1
               endif
             elseif c == '"' 
-              let inSTR = s:IS_FALSE
+              let inSTR = 0
             endif
 
           else
@@ -682,19 +677,19 @@ function! s:BuildDotList(initialPos, lineNos)
               call add(entrylist, entry)
 " echo 'add entry 1'
               let start = currentPos + 1
-              let nonWS = s:IS_FALSE
-              let isSTR = s:IS_FALSE
+              let nonWS = 0
+              let isSTR = 0
               let type = 'arg'
-              let isnewline = s:IS_FALSE
+              let isnewline = 0
 
             elseif c == '"' 
-              let inSTR = s:IS_TRUE
+              let inSTR = 1
 
-            elseif c == ' ' && nonWS == s:IS_FALSE && isnewline == s:IS_TRUE
+            elseif c == ' ' && nonWS == 0 && isnewline == 1
               " let start = start + 1
 
             else
-              let nonWS = s:IS_TRUE
+              let nonWS = 1
 
             endif
           endif
@@ -708,20 +703,20 @@ function! s:BuildDotList(initialPos, lineNos)
 " echo 'add entry 4'
 
             let start = currentPos + 1
-            let nonWS = s:IS_FALSE
+            let nonWS = 0
             let type = 'arg'
-            let isnewline = s:IS_FALSE
+            let isnewline = 0
 
-          elseif c == '"' && isSTR == s:IS_FALSE && parenDepth == 0
-            let inSTR = s:IS_TRUE
-            let isSTR = s:IS_TRUE
+          elseif c == '"' && isSTR == 0 && parenDepth == 0
+            let inSTR = 1
+            let isSTR = 1
             let type = 'textstart'
 
-          elseif c == ' ' && nonWS == s:IS_FALSE
+          elseif c == ' ' && nonWS == 0
             let start = start + 1
 
           else
-            let nonWS = s:IS_TRUE
+            let nonWS = 1
 
           endif
         endif
@@ -732,7 +727,7 @@ function! s:BuildDotList(initialPos, lineNos)
 
       let currentLine = currentLine + 1
       let currentPos = 0
-      let isnewline = s:IS_TRUE
+      let isnewline = 1
     endwhile
 
     return emptylist 
@@ -755,13 +750,13 @@ function! s:BuildStringList(initialPos, lineNos)
     let currentPos = a:initialPos
     let currentLine = a:lineNos
     let maxLine = currentLine + g:scala_format_max_number_args
-    let isnewline = s:IS_FALSE
+    let isnewline = 0
 
     let type = 'textstart'
-    let isSTR = s:IS_FALSE
-    let inSTR = s:IS_FALSE
-    let nonWS = s:IS_FALSE
-    let continue = s:IS_FALSE
+    let isSTR = 0
+    let inSTR = 0
+    let nonWS = 0
+    let continue = 0
 
     let emptylist = []
 
@@ -771,7 +766,7 @@ function! s:BuildStringList(initialPos, lineNos)
       let text = getline(currentLine)
       let textLen = len(text)
 
-      let continue = s:IS_FALSE
+      let continue = 0
 
       " consume start-of-line WS
       let c = strpart(text, currentPos, 1)
@@ -788,8 +783,8 @@ function! s:BuildStringList(initialPos, lineNos)
         let c = strpart(text, currentPos - 1, 1)
 " echo 'c: ' . c
 
-        if inSTR == s:IS_TRUE
-          let continue = s:IS_FALSE
+        if inSTR == 1
+          let continue = 0
           if c == '\' 
             let cc = strpart(text, currentPos, 1)
 " echo 'cc: ' . cc
@@ -797,12 +792,12 @@ function! s:BuildStringList(initialPos, lineNos)
               let currentPos = currentPos + 1
             endif
           elseif c == '"' 
-            let inSTR = s:IS_FALSE
+            let inSTR = 0
           endif
 
         else
           if c == '"' 
-            let inSTR = s:IS_TRUE
+            let inSTR = 1
 
           elseif c == '+'
             let entry = {'type': type, 'isnewline': isnewline, 'line': currentLine, 'start': start, 'end': currentPos - 1}
@@ -816,18 +811,18 @@ function! s:BuildStringList(initialPos, lineNos)
             endwhile
 
             let start = currentPos + 1
-            let nonWS = s:IS_FALSE
+            let nonWS = 0
             let type = 'textmiddle'
-            let isnewline = s:IS_FALSE
+            let isnewline = 0
 
-            let continue = s:IS_TRUE
+            let continue = 1
 
-          elseif c == ' ' && nonWS == s:IS_FALSE && isnewline == s:IS_TRUE
+          elseif c == ' ' && nonWS == 0 && isnewline == 1
             " let start = start + 1
 
           else
-            let nonWS = s:IS_TRUE
-            let continue = s:IS_FALSE
+            let nonWS = 1
+            let continue = 0
 
           endif
         endif
@@ -835,7 +830,7 @@ function! s:BuildStringList(initialPos, lineNos)
         let currentPos = currentPos + 1
       endwhile
 
-      if continue == s:IS_FALSE
+      if continue == 0
         if type != 'textstart'
           let type = 'textend'
         endif
@@ -846,7 +841,7 @@ function! s:BuildStringList(initialPos, lineNos)
 
       let currentLine = currentLine + 1
       let currentPos = 1
-      let isnewline = s:IS_TRUE
+      let isnewline = 1
     endwhile
 
     return emptylist 
@@ -1010,7 +1005,7 @@ function! s:FormatParenList(offset, entrylist)
         let offset = offset + g:scala_format_extra_arg_offset
       endif
 
-      if isnewline == s:IS_TRUE
+      if isnewline == 1
         execute ":normal ". line . "G"
         execute ":normal 0"
         if start > 1
